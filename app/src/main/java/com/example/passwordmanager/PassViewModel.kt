@@ -13,13 +13,13 @@ import kotlinx.coroutines.launch
 class PassViewModel(
     private val passRepository : PasswordRepository = Graph.passwordRepository
 ) : ViewModel() {
-    var webState by  mutableStateOf("")
+    var webState =  mutableStateOf("")
     var userState by mutableStateOf("")
     var passState by mutableStateOf("")
 
 
     fun onWebStateChange(newString:String){
-        webState = newString
+        webState.value = newString
     }
 
     fun onUserStateChange(newString:String){

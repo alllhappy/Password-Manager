@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +35,7 @@ import androidx.compose.ui.text.input.KeyboardType
 //        Text(text = viewModel.webState)
 //    }
 //}
-data class s(var a:String)
+
 @Composable
 fun test(viewModel: PassViewModel){
     var a by remember {
@@ -42,13 +43,16 @@ fun test(viewModel: PassViewModel){
     }
     val b="hahah"
     var x=true
-    if(x){
-       a= b
+    LaunchedEffect(x){
+        if(x){
+            a= b
+        }
     }
 
 
-    Column {
-        TextField(value = a , onValueChange ={a=it})
-        Text(text = viewModel.webState)
-    }
+
+//    Column {
+//        TextField(value = a , onValueChange ={a=it})
+//        Text(text = viewModel.webState)
+//    }
 }

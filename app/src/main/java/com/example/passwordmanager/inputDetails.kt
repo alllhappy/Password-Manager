@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,41 +39,16 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun inputDetailsScreen( id: Int,viewModel: PassViewModel,navController: NavController){
+val scope= rememberCoroutineScope()
+    if(id!=0){
+        val passwd = viewModel.getaPassword(id).collectAsState(initial = password(0, "", "", ""))
+        viewModel.onWebStateChange(passwd.value.Website)
 
-/*
-    val scope= rememberCoroutineScope()
-    if(id!=0){// use update
-
-        val passwd=viewModel.getaPassword(id).collectAsState(initial = password(0,"","",""))
-        var pass:password by remember {
-            mutableStateOf(password(id,passwd.value.Website,passwd.value.Username,passwd.value.pass))
-        }
-
-
-        inputDetailsUi(Password =pass , func = { viewModel.updatePassword(pass) }, BMessage ="Update" , navController =navController,scope )
     }
-    else{ // use add
-        var pass:password by remember {
-            mutableStateOf(password(id,"","",""))
-        }
-        inputDetailsUi(Password = pass, func = { viewModel.addPassword(pass) }, BMessage ="Add" , navController =navController,scope )
+    else{
+        viewModel.onWebStateChange("")
     }
-
-
-
-
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun preview(){
-    val navController = rememberNavController()
-    inputDetailsScreen(0, viewModel(),navController)
-}
-
-@Composable
-fun inputDetailsUi(Password:password,func:()->Unit,BMessage:String,navController: NavController,scope: CoroutineScope){
-
+ val text by viewModel.webState
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -86,52 +62,67 @@ fun inputDetailsUi(Password:password,func:()->Unit,BMessage:String,navController
             .height(55.dp),
             contentAlignment = Alignment.CenterStart
         ) {
+            
             Row {
                 IconButton(onClick = { /*navigate back to savedPassword screen*/ navController.navigate("savedPasswords") }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription ="Back button" )
                 }
                 Spacer(modifier = Modifier.padding(horizontal = 20.dp))
                 Text(
-                    text = "$BMessage Password Screen",
+                    text = "Add/Update Password Screen",
                     modifier = Modifier.padding(8.dp),
                     fontSize = 20.sp,
                 )
             }
         }
         Spacer(modifier = Modifier.padding(vertical = 12.dp))
-        OutlinedTextField(value =Password.Website ,
+        Text(text = viewModel.webState.value)
+        OutlinedTextField(value =text ,
             onValueChange ={
-               Password=Password.copy(Website = it)
+                viewModel.onWebStateChange(it)
+
             },
             placeholder = { Text(text ="Website")},
             modifier = Modifier.padding(8.dp)
         )
-        OutlinedTextField(value = ,
-            onValueChange ={Password.Username=it},
-            placeholder = { Text(text ="Username")},
-            modifier = Modifier.padding(8.dp)
-        )
-        OutlinedTextField(value =Password.pass ,
-            onValueChange ={Password.pass=it},
-            placeholder = { Text(text ="password")},
-            modifier = Modifier.padding(8.dp)
-        )
+//        OutlinedTextField(value = ,
+//            onValueChange ={Password.Username=it},
+//            placeholder = { Text(text ="Username")},
+//            modifier = Modifier.padding(8.dp)
+//        )
+//        OutlinedTextField(value =Password.pass ,
+//            onValueChange ={Password.pass=it},
+//            placeholder = { Text(text ="password")},
+//            modifier = Modifier.padding(8.dp)
+//        )
 
 
         Spacer(modifier = Modifier.padding(vertical = 12.dp))
 
         Button(onClick = { /*navigate back to savedPasswordsScreen and append the input items in list*/
-            func()
+                if(id!=0){
+                    viewModel.updatePassword(password(id,text,"test","test"))
+                }
+            else{
+                viewModel.addPassword(password(id,text,"add","add"))
+                }
             scope.launch {
                 navController.navigate("savedPasswords")
             }
         })
         {
-            Text(text = "$BMessage")
+            Text(text = "Add/update")
         }
     }
 
- */
 }
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun preview(){
+    val navController = rememberNavController()
+    inputDetailsScreen(0, viewModel(),navController)
+}
+
 
 
