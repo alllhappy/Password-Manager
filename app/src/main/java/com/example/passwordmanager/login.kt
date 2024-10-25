@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,11 +32,12 @@ fun loginScreen(navigationToSecondScreen: () -> Unit){
     val pass = remember { mutableStateOf("") }
     val context=LocalContext.current
     val Case=remember{ mutableStateOf(0)}
+    val txt=TextStyle(Color.White)
 
 
     Column (modifier = Modifier
         .fillMaxSize()
-        .background(Color.Green),
+        .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally,
         )
 
@@ -61,7 +63,8 @@ fun loginScreen(navigationToSecondScreen: () -> Unit){
             placeholder = {
                 Text(text = "Enter your email address")
             },
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp),
+            textStyle = txt
         )
 
         OutlinedTextField(value = pass.value,
@@ -72,7 +75,8 @@ fun loginScreen(navigationToSecondScreen: () -> Unit){
                 Text(text = "Enter your password")
             },
             modifier = Modifier.padding(8.dp),
-            visualTransformation = PasswordVisualTransformation()
+            visualTransformation = PasswordVisualTransformation(),
+            textStyle = txt
         )
 
         Button(onClick = {

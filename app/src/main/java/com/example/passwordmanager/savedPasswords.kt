@@ -47,7 +47,7 @@ fun savedPasswordScreen(viewModel : PassViewModel,navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Green),
+            .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally,
     )
     {
@@ -72,7 +72,7 @@ fun savedPasswordScreen(viewModel : PassViewModel,navController: NavController){
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(8.dp)
-                            .background(Color.Yellow)
+                            .background(Color.Black)
                       )
                 {
 
@@ -90,7 +90,7 @@ fun savedPasswordScreen(viewModel : PassViewModel,navController: NavController){
                 }
             FloatingActionButton(onClick = { /* add password function */
                     navController.navigate("inputDetails/0") },
-                    modifier = Modifier.padding(top = 620.dp, start = 300.dp, end = 8.dp, bottom = 8.dp))
+                    modifier = Modifier.padding(top = 700.dp, start = 300.dp, end = 8.dp, bottom = 8.dp))
                 {
                     Icon(imageVector = Icons.Default.Add, contentDescription =" add" )
                 }
@@ -109,7 +109,7 @@ fun savedPasswordScreen(viewModel : PassViewModel,navController: NavController){
 fun passCompsable(password: password,updateFunc:()->Unit,deleteFunc:()-> Unit ,modifier :Modifier=Modifier){
     var expanded = remember { mutableStateOf(false) }
     Box (modifier = Modifier
-        .background(Color.Yellow)
+        .background(Color.Black)
         .padding(8.dp)
         .width(300.dp))
     {
@@ -120,14 +120,14 @@ fun passCompsable(password: password,updateFunc:()->Unit,deleteFunc:()-> Unit ,m
                 modifier=Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
-                Text(text = "Website: ${password.Website}", modifier = Modifier.padding(4.dp))
+                Text(text = "Website: ${password.Website}", modifier = Modifier.padding(4.dp), color = Color.White)
 
                 //dropDownmenu
                 IconButton(onClick = { expanded.value=true },modifier= Modifier
                     .height(25.dp)
                     .width(25.dp)
                     .padding(4.dp)) {
-                    Icon(imageVector = Icons.Default.MoreVert, contentDescription ="More options" )
+                    Icon(imageVector = Icons.Default.MoreVert, contentDescription ="More options", tint = Color.White )
 
                         DropdownMenu(expanded = expanded.value,
                             onDismissRequest = { expanded.value=false }) {
@@ -137,8 +137,8 @@ fun passCompsable(password: password,updateFunc:()->Unit,deleteFunc:()-> Unit ,m
                 }
 
             }
-            Text(text = "Username: ${password.Username}",modifier = Modifier.padding(4.dp))
-            Text(text = "Password:${password.pass}",modifier = Modifier.padding(4.dp))
+            Text(text = "Username: ${password.Username}",modifier = Modifier.padding(4.dp),color = Color.White)
+            Text(text = "Password:${password.pass}",modifier = Modifier.padding(4.dp),color = Color.White)
 
         }
     }

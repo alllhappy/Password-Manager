@@ -10,6 +10,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,22 +38,28 @@ import androidx.compose.ui.text.input.KeyboardType
 //}
 
 @Composable
-fun test(viewModel: PassViewModel){
-    var a by remember {
-        mutableStateOf("")
+fun test(id: Int=2,viewModel: PassViewModel){
+    val passwd = viewModel.getaPassword(id).collectAsState(initial = password(0, "", "", ""))
+
+    var x=false
+    if(x){
+        var a by remember {
+            mutableStateOf("iijijl")
+        }
+        Column {
+            TextField(value = a , onValueChange ={a=it})
+        }
     }
-    val b="hahah"
-    var x=true
-    LaunchedEffect(x){
-        if(x){
-            a= b
+    else{
+        var a by remember {
+            mutableStateOf("")
+        }
+        Column {
+            TextField(value = a , onValueChange ={a=it})
         }
     }
 
 
 
-//    Column {
-//        TextField(value = a , onValueChange ={a=it})
-//        Text(text = viewModel.webState)
-//    }
+
 }

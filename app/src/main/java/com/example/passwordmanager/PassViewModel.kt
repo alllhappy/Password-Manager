@@ -1,5 +1,6 @@
 package com.example.passwordmanager
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -8,18 +9,21 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class PassViewModel(
     private val passRepository : PasswordRepository = Graph.passwordRepository
 ) : ViewModel() {
-    var webState =  mutableStateOf("")
+    /*
+    var webState by  mutableStateOf("")
     var userState by mutableStateOf("")
     var passState by mutableStateOf("")
 
 
     fun onWebStateChange(newString:String){
-        webState.value = newString
+        webState = newString
     }
 
     fun onUserStateChange(newString:String){
@@ -28,6 +32,8 @@ class PassViewModel(
     fun onPassStateChange(newString:String){
         passState = newString
     }
+
+     */
 
     lateinit var getAllPassword: Flow<List<password>>
 

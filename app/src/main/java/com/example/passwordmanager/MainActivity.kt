@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     passApp()
-//                    test(viewModel())
+//                    test(2,viewModel())
 
                 }
             }
@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
 fun passApp(viewModel : PassViewModel= viewModel()){
     // use nav to control the screens. all screens will have seperate files
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination ="savedPasswords"){
+    NavHost(navController = navController, startDestination ="login"){
         composable("login") {
             loginScreen {
                 navController.navigate("savedPasswords")  // we are passing the parameter what that function should do

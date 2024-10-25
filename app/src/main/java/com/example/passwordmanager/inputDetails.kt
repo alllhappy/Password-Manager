@@ -28,6 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,78 +41,155 @@ import kotlinx.coroutines.launch
 @Composable
 fun inputDetailsScreen( id: Int,viewModel: PassViewModel,navController: NavController){
 val scope= rememberCoroutineScope()
-    if(id!=0){
+    var w by remember {
+        mutableStateOf("")
+    }
+    var u by remember {
+        mutableStateOf("")
+    }
+    var p by remember {
+        mutableStateOf("")
+    }
+    if(id!=0){ /// Updating
         val passwd = viewModel.getaPassword(id).collectAsState(initial = password(0, "", "", ""))
-        viewModel.onWebStateChange(passwd.value.Website)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        )
+        {
+            Box(modifier = Modifier
+                .background(Color.Red)
+                .fillMaxWidth()
+                .height(55.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
 
+                Row {
+                    IconButton(onClick = { /*navigate back to savedPassword screen*/ navController.navigate("savedPasswords") }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription ="Back button" )
+                    }
+
+                    Spacer(modifier = Modifier.padding(horizontal = 20.dp))
+
+                    Text(
+                        text = "Update Password Screen",
+                        modifier = Modifier.padding(8.dp),
+                        fontSize = 20.sp,
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+            Text(text = "Current Website : ${passwd.value.Website}", color = Color.White)
+            OutlinedTextField(value =w,
+                onValueChange ={
+                    w=it
+                },
+                placeholder = { Text(text ="Updated Website")},
+                modifier = Modifier.padding(8.dp),
+                textStyle = TextStyle(Color.White)
+            )
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+            Text(text = "Current Username : ${passwd.value.Username}",color = Color.White)
+            OutlinedTextField(value =u,
+                onValueChange ={
+                    u=it
+                },
+                placeholder = { Text(text ="Updated Username")},
+                modifier = Modifier.padding(8.dp),
+                textStyle = TextStyle(Color.White)
+            )
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+            Text(text = "Current Password : ${passwd.value.pass}",color = Color.White)
+            OutlinedTextField(value =p,
+                onValueChange ={
+                    p=it
+                },
+                placeholder = { Text(text ="Updated Password")},
+                modifier = Modifier.padding(8.dp),
+                textStyle = TextStyle(Color.White)
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+
+            Button(onClick = { /*navigate back to savedPasswordsScreen and append the input items in list*/
+                viewModel.updatePassword(password(id,w,u,p))
+                scope.launch {
+                    navController.navigate("savedPasswords")
+                }
+            })
+            {
+                Text(text = "update")
+            }
+    }
     }
     else{
-        viewModel.onWebStateChange("")
-    }
- val text by viewModel.webState
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Green),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    )
-    {
-        Box(modifier = Modifier
-            .background(Color.Red)
-            .fillMaxWidth()
-            .height(55.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            
-            Row {
-                IconButton(onClick = { /*navigate back to savedPassword screen*/ navController.navigate("savedPasswords") }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription ="Back button" )
-                }
-                Spacer(modifier = Modifier.padding(horizontal = 20.dp))
-                Text(
-                    text = "Add/Update Password Screen",
-                    modifier = Modifier.padding(8.dp),
-                    fontSize = 20.sp,
-                )
-            }
-        }
-        Spacer(modifier = Modifier.padding(vertical = 12.dp))
-        Text(text = viewModel.webState.value)
-        OutlinedTextField(value =text ,
-            onValueChange ={
-                viewModel.onWebStateChange(it)
-
-            },
-            placeholder = { Text(text ="Website")},
-            modifier = Modifier.padding(8.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black),
+            horizontalAlignment = Alignment.CenterHorizontally,
         )
-//        OutlinedTextField(value = ,
-//            onValueChange ={Password.Username=it},
-//            placeholder = { Text(text ="Username")},
-//            modifier = Modifier.padding(8.dp)
-//        )
-//        OutlinedTextField(value =Password.pass ,
-//            onValueChange ={Password.pass=it},
-//            placeholder = { Text(text ="password")},
-//            modifier = Modifier.padding(8.dp)
-//        )
-
-
-        Spacer(modifier = Modifier.padding(vertical = 12.dp))
-
-        Button(onClick = { /*navigate back to savedPasswordsScreen and append the input items in list*/
-                if(id!=0){
-                    viewModel.updatePassword(password(id,text,"test","test"))
-                }
-            else{
-                viewModel.addPassword(password(id,text,"add","add"))
-                }
-            scope.launch {
-                navController.navigate("savedPasswords")
-            }
-        })
         {
-            Text(text = "Add/update")
+            Box(modifier = Modifier
+                .background(Color.Red)
+                .fillMaxWidth()
+                .height(55.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+
+                Row {
+                    IconButton(onClick = { /*navigate back to savedPassword screen*/ navController.navigate("savedPasswords") }) {
+                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription ="Back button" )
+                    }
+                    Spacer(modifier = Modifier.padding(horizontal = 20.dp))
+                    Text(
+                        text = "add Password Screen",
+                        modifier = Modifier.padding(8.dp),
+                        fontSize = 20.sp,
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+            OutlinedTextField(value =w,
+                onValueChange ={
+                    w=it
+                },
+                placeholder = { Text(text ="Website")},
+                modifier = Modifier.padding(8.dp),
+                textStyle = TextStyle(Color.White)
+            )
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+            OutlinedTextField(value =u,
+                onValueChange ={
+                    u=it
+                },
+                placeholder = { Text(text ="Username")},
+                modifier = Modifier.padding(8.dp),
+                textStyle = TextStyle(Color.White)
+            )
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+            OutlinedTextField(value =p,
+                onValueChange ={
+                    p=it
+                },
+                placeholder = { Text(text ="Password")},
+                modifier = Modifier.padding(8.dp),
+                textStyle = TextStyle(Color.White)
+            )
+
+            Spacer(modifier = Modifier.padding(vertical = 12.dp))
+
+            Button(onClick = { /*navigate back to savedPasswordsScreen and append the input items in list*/
+                viewModel.addPassword(password(id,w,u,p))
+                scope.launch {
+                    navController.navigate("savedPasswords")
+                }
+            })
+            {
+                Text(text = "add")
+            }
         }
     }
 
