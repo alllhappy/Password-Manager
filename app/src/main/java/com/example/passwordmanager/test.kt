@@ -37,16 +37,18 @@ import androidx.compose.ui.text.input.KeyboardType
 data class s(var a:String)
 @Composable
 fun test(viewModel: PassViewModel){
-    var a: s by mutableStateOf(s(""))
+    var a by remember {
+        mutableStateOf("")
+    }
     val b="hahah"
     var x=true
     if(x){
-       a=a.copy(b)
+       a= b
     }
 
 
     Column {
-        TextField(value = a.a , onValueChange ={a=a.copy(a=it)})
+        TextField(value = a , onValueChange ={a=it})
         Text(text = viewModel.webState)
     }
 }
